@@ -1,0 +1,12 @@
+{
+  "questions": [
+    "How do I create a new project?",
+    "What are the best practices for project documentation?",
+    "Can you help me write a project description?"
+  ],
+  "suggestions": [
+    "Create a new frontend component",
+    "Update API documentation",
+    "Schedule team meeting"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "title": "Test Document",
+  "content": "This is a test document created by Cypress automation.",
+  "aiPrompt": "Create a project plan for a software development project",
+  "sections": [
+    {
+      "title": "Introduction",
+      "content": "This is the introduction section."
+    },
+    {
+      "title": "Body",
+      "content": "This is the body section."
+    },
+    {
+      "title": "Conclusion",
+      "content": "This is the conclusion section."
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "projectName": "Test Automation Project",
+  "projectDescription": "This is a test project created by Cypress automation",
+  "teamMembers": ["John Doe", "Jane Smith"]
+}

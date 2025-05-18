@@ -1,0 +1,22 @@
+{
+  "totalRevenue": {
+    "value": "$125,430",
+    "trend": "up",
+    "percentChange": "12%"
+  },
+  "newCustomers": {
+    "value": "354",
+    "trend": "up",
+    "percentChange": "8%"
+  },
+  "activeAccounts": {
+    "value": "1,245",
+    "trend": "down",
+    "percentChange": "3%"
+  },
+  "growthRate": {
+    "value": "18.5%",
+    "trend": "up",
+    "percentChange": "2.3%"
+  }
+}
