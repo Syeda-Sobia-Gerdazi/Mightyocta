@@ -31,6 +31,10 @@ export class ProjectsPage {
     return cy.get('textarea').first();
   }
 
+  getIndustryType(){
+     return cy.get('[data-testid="industry-type-combobox"]')
+  }
+
   getNextStepButton() {
     return cy.contains('button', /Next/i).first();
   }
@@ -40,7 +44,7 @@ export class ProjectsPage {
   }
 
   getAddTeamMemberButton() {
-    return cy.contains('button', /Add/i).first();
+    return cy.get('[data-testid="next-button"] > span')
   }
 
   getTeamMemberInput() {
@@ -74,14 +78,34 @@ export class ProjectsPage {
   }
 
   fillProjectBasics(name, description) {
-    this.getProjectNameInput().type(name);
-    this.getProjectDescriptionInput().type(description);
-    this.getNextStepButton().click();
-  }
+  this.getProjectNameInput().type(name);
+  this.getProjectDescriptionInput().type(description);
+
+  // Add global exception handler to suppress the ResizeObserver crash
+  Cypress.on('uncaught:exception', (err) => {
+    if (err.message.includes('ResizeObserver loop completed with undelivered notifications')) {
+      return false; // Prevent test from failing
+    }
+  });
+
+  // Click on Industry Type (avoid static waits)
+  this.getIndustryType().click();
+
+  // Wait for dropdown item to become visible then click
+  cy.get('[cmdk-item][data-value="entertainment"]', { timeout: 10000 })
+    .should('be.visible')
+    .click();
+
+  // Optional: Wait for any async network request after selection
+  // cy.intercept('POST', '**/api/project').as('createProject');
+  // this.getNextStepButton().click();
+  // cy.wait('@createProject');
+}
 
   addTeamMembers(members) {
+    this.getAddTeamMemberButton().click();
     members.forEach(member => {
-      this.getAddTeamMemberButton().click();
+      
       this.getTeamMemberInput().last().type(member);
     });
     this.getNextStepButton().click();
@@ -100,5 +124,30 @@ export class ProjectsPage {
     this.addTeamMembers(members);
     this.skipSubprojects();
     this.finishProjectCreation();
+  }
+
+  getProjectCards() {
+    return cy.get('div[devinid]').contains('Project Title').parent().parent();
+  }
+
+  getFirstProjectCard() {
+    return this.getProjectCards().first();
+  }
+
+  clickFirstProject() {
+    this.getFirstProjectCard().click();
+    cy.url().should('include', '/projects/');
+  }
+  
+  filterByAllProjects() {
+    cy.contains('button', 'All Projects').click();
+  }
+  
+  filterByMyProjects() {
+    cy.contains('button', 'My Projects').click();
+  }
+  
+  filterBySharedProjects() {
+    cy.contains('button', 'Shared Projects').click();
   }
 }

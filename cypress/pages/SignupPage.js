@@ -4,35 +4,35 @@ export class SignupPage {
     }
   
     clickSignupTab() {
-      cy.get('[data-test-id="signup-tab"]').click();
+      cy.contains('button', 'Sign Up').click();
     }
   
     getNameInput() {
-      return cy.get('[data-test-id="name-input"]');
+      return cy.get('input[name="name"]');
     }
   
     getEmailInput() {
-      return cy.get('[data-test-id="email-input"]');
+      return cy.get('input[name="email"]');
     }
   
     getPasswordInput() {
-      return cy.get('[data-test-id="password-input"]');
+      return cy.get('input[name="password"]');
     }
   
     getConfirmPasswordInput() {
-      return cy.get('[data-test-id="confirm-password-input"]');
+      return cy.get('input[name="confirmPassword"]');
     }
   
     getSubmitSignupButton() {
-      return cy.get('[data-test-id="submit-button"]');
+      return cy.get('button[type="submit"]');
     }
   
     getNameErrorMessage() {
-      return cy.get('[data-test-id="name-error-message"]');
+      return cy.get('p.text-destructive').first();
     }
   
     getEmailErrorMessage() {
-      return cy.get('[data-test-id="email-error-message"]');
+      return cy.get('p.text-destructive').eq(1);
     }
   
     signup(fullName, email, password, confirmPassword) {
