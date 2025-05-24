@@ -131,4 +131,28 @@ export class DashboardPage {
   clickStartWithOctoAI() {
     this.getStartWithOctoAIButton().click();
   }
+
+  getActiveProjectsCard() {
+    return cy.contains('Active Projects').parent().parent();
+  }
+
+  getCompletedProjectsCard() {
+    return cy.contains('Completed Projects').parent().parent();
+  }
+
+  getOverdueTasksCard() {
+    return cy.contains('Overdue Tasks').parent().parent();
+  }
+
+  getUpcomingDeadlinesCard() {
+    return cy.contains('Upcoming Deadlines').parent().parent();
+  }
+
+  clickActiveProjectsCard() {
+    this.getActiveProjectsCard().click();
+  }
+
+  getUserName() {
+    return cy.contains('Welcome back').next();
+  }
 }

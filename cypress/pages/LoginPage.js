@@ -4,23 +4,21 @@ export class LoginPage {
   }
 
   clickLoginTab() {
-    cy.contains('button', 'Login').click();
   }
 
   getEmailInput() {
-    return cy.get('[data-test-id="email-input"]');
+    return cy.get('input[name="email"]');
   }
 
   getPasswordInput() {
-    return cy.get('[data-test-id="password-input"]');
+    return cy.get('input[name="password"]');
   }
 
   getSubmitLoginButton() {
-    return cy.get('[data-test-id="submit-button"]');
+    return cy.get('button[type="submit"]');
   }
 
   login(email, password) {
-    this.clickLoginTab(); // Ensure Login Tab is active first
     this.getEmailInput().type(email);
     this.getPasswordInput().type(password);
     this.getSubmitLoginButton().click();

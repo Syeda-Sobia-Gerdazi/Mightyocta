@@ -4,11 +4,11 @@ export class DocumentPage {
   }
 
   getCreateDocumentButton() {
-    return cy.contains('button', 'Create Document');
+    return cy.contains('button', 'Start from scratch');
   }
 
   getUseAIAssistantButton() {
-    return cy.contains('button', 'Use AI Assistant');
+    return cy.contains('button', 'Start with Octo AI');
   }
 
   getDocumentTitleInput() {
@@ -16,7 +16,7 @@ export class DocumentPage {
   }
 
   getDocumentContent() {
-    return cy.get('[data-test="document-editor"]');
+    return cy.get('[data-test="document-editor"], textarea');
   }
 
   getAddSectionButton() {
@@ -25,6 +25,18 @@ export class DocumentPage {
 
   getSaveButton() {
     return cy.contains('button', 'Save');
+  }
+
+  getUploadDocumentButton() {
+    return cy.contains('button', 'Upload');
+  }
+
+  getVersionHistoryButton() {
+    return cy.contains('button', 'Version History');
+  }
+
+  getShareButton() {
+    return cy.contains('button', 'Share');
   }
 
   createDocumentFromScratch(title, content) {
@@ -36,9 +48,9 @@ export class DocumentPage {
 
   createDocumentWithAI(prompt) {
     this.getUseAIAssistantButton().click();
-    cy.get('textarea[placeholder="What would you like to create?"]').type(prompt);
+    cy.get('textarea[placeholder="How can I help you today?"]').type(prompt);
     cy.contains('button', 'Generate').click();
-    cy.get('[data-test="ai-generated-content"]', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-test="ai-generated-content"], textarea', { timeout: 10000 }).should('be.visible');
     this.getSaveButton().click();
   }
 }

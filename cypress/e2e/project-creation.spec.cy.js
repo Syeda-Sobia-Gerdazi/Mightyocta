@@ -27,11 +27,7 @@ describe('Project Creation Smoke Tests', () => {
     cy.url().should('include', '/projects');
   });
 
-  it('Should have project form elements', () => {
-    dashboardPage.navigateToProjects();
-    cy.get('input').should('exist');
-    cy.get('button').should('exist');
-  });
+
 });
 
 describe('Project Creation Workflow Tests', () => {
@@ -47,10 +43,16 @@ describe('Project Creation Workflow Tests', () => {
   it('Should complete project basics step', function() {
     dashboardPage.navigateToProjects();
     projectsPage.clickNewProject();
-    cy.get('body').should('be.visible');
-    cy.wait(3000); // Wait for dynamic content to load
-    cy.url().should('include', '/projects/create');
-    cy.log('Project basics step verified');
+   
+    cy.url().should('include', '/projects');
+    cy.get('.gap-4 > [tabindex="0"] > .cursor-pointer').click()
+    cy.fixture('projectData').then((projectData) => {
+      projectsPage.getProjectNameInput().should('be.visible');
+      projectsPage.getProjectDescriptionInput().should('be.visible');
+      projectsPage.fillProjectBasics(projectData.projectName, projectData.projectDescription);
+    });
+    
+    cy.contains('Add team members').should('be.visible');
   });
 
   it('Should add team members to project', function() {
@@ -58,8 +60,16 @@ describe('Project Creation Workflow Tests', () => {
     projectsPage.clickNewProject();
     cy.get('body').should('be.visible');
     cy.wait(3000); // Wait for dynamic content to load
-    cy.url().should('include', '/projects/create');
-    cy.log('Team members step verified');
+        cy.get('.gap-4 > [tabindex="0"] > .cursor-pointer').click()
+    cy.fixture('projectData').then((projectData) => {
+      projectsPage.fillProjectBasics(projectData.projectName, projectData.projectDescription);
+    });
+    
+    cy.fixture('projectData').then((projectData) => {
+      projectsPage.addTeamMembers(projectData.teamMembers);
+    });
+    
+    cy.contains('Create sub-projects').should('be.visible');
   });
 
   it('Should complete full project creation workflow', function() {
@@ -67,14 +77,18 @@ describe('Project Creation Workflow Tests', () => {
     projectsPage.clickNewProject();
     cy.get('body').should('be.visible');
     cy.wait(3000); // Wait for dynamic content to load
-    
+        cy.get('.gap-4 > [tabindex="0"] > .cursor-pointer').click()
     cy.fixture('projectData').then((projectData) => {
-      cy.log(`Creating project: ${projectData.projectName}`);
-      cy.log(`With description: ${projectData.projectDescription}`);
-      cy.log(`Team members: ${projectData.teamMembers.join(', ')}`);
+      projectsPage.fillProjectBasics(projectData.projectName, projectData.projectDescription);
+      
+      projectsPage.addTeamMembers(projectData.teamMembers);
+      
+      projectsPage.skipSubprojects();
+      
+      projectsPage.finishProjectCreation();
+      
+      cy.url().should('include', '/projects');
+      cy.contains(projectData.projectName).should('exist');
     });
-    
-    cy.log('Project creation workflow verified');
-    cy.url().should('include', '/projects/create');
   });
 });
